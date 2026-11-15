@@ -1,0 +1,48 @@
+# Security
+.env
+
+# Python Caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Bot Temporary Files and Logs
+*.log
+temp_chunks_*
+*.mp4
+*.mkv
+*.pdf
+*.session
+*.session-journal
+*.jpg
+*.jpeg
+*.png
+*.txt
+
+# Binary Download Tools (downloaded by Dockerfile / setup_re_binary)
+N_m3u8DL-RE.exe
+N_m3u8DL-RE
+mp4decrypt.exe
+mp4decrypt
+bento.zip
+re.zip
+re.tar.gz
+
+# Stray system files
+nul
+
+# Private Device Files
+# *.wvd
+
+# Temp Fix / Refactor / Test Scripts (developer-only)
+fix_*.py
+refactor*.py
+test_*.py
+re_readme.md
+Aptfile
+runtime.txt
+reflog.txt

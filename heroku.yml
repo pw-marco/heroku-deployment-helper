@@ -1,0 +1,7 @@
+# Heroku container deploy for the Telegram bot in bot/.
+# Requires: heroku stack:set container -a <app-name>
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: sh -c "uvicorn api:app --host 0.0.0.0 --port $PORT & python3 main.py"
