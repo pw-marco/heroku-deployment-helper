@@ -3,10 +3,10 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AkkiUp Bot – Heroku Deploy Guide" },
-      { name: "description", content: "AkkiUp Telegram bot ko GitHub se Heroku pe deploy karne ka step-by-step guide." },
-      { property: "og:title", content: "AkkiUp Bot – Heroku Deploy Guide" },
-      { property: "og:description", content: "GitHub se Heroku pe AkkiUp bot deploy karne ke steps." },
+      { title: "MARCOxUPLODER Bot – Heroku Deploy Guide" },
+      { name: "description", content: "MARCOxUPLODER Telegram bot ko GitHub se Heroku pe deploy karne ka step-by-step guide." },
+      { property: "og:title", content: "MARCOxUPLODER Bot – Heroku Deploy Guide" },
+      { property: "og:description", content: "GitHub se Heroku pe MARCOxUPLODER bot deploy karne ke steps." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -66,7 +66,7 @@ function Index() {
   return (
     <main className="min-h-screen bg-background px-5 py-12 text-foreground">
       <div className="mx-auto max-w-2xl">
-        <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">AkkiUp Bot</p>
+        <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">MARCOxUPLODER Bot</p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight">Heroku pe deploy kaise karein</h1>
         <div className="mt-6 rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">
           <strong>Zaroori:</strong> Purane code me bot token aur MongoDB password likhe hue the. Maine unhe code se hata diya hai.

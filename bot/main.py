@@ -47,15 +47,15 @@ logging.basicConfig(
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
 logger = logging.getLogger(__name__)
 
-RISHI_BANNER = """
-   ██████╗ ██╗███████╗██╗  ██╗██╗
-   ██╔══██╗██║██╔════╝██║  ██║██║
-   ██████╔╝██║███████╗███████║██║    C_B
-   ██╔══██╗██║╚════██║██╔══██║██║    EXTRACTOR
-   ██║  ██║██║███████║██║  ██║██║
-   ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝╚═╝
- ⚡ THE ULTIMATE DRM BYPASS ENGINE ⚡
- 👑 Developed by: @officialmarco22 👑
+BANNER = """
+   ███╗   ███╗ █████╗ ██████╗  ██████╗ ██████╗
+   ████╗ ████║██╔══██╗██╔══██╗██╔════╝██╔═══██╗
+   ██╔████╔██║███████║██████╔╝██║     ██║   ██║   x
+   ██║╚██╔╝██║██╔══██║██╔══██╗██║     ██║   ██║   UPLODER
+   ██║ ╚═╝ ██║██║  ██║██║  ██║╚██████╗╚██████╔╝
+   ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝
+ ⚡ MARCOxUPLODER — Powered by Marco ⚡
+ 👑 Developed & Owned by: @officialmarco22 👑
 """
 
 logger.info("Starting MARCOxUPLODER...")
@@ -136,7 +136,7 @@ if __name__ == "__main__":
         await server.serve()
 
     async def main():
-        print(RISHI_BANNER)
+        print(BANNER)
         print("\U0001f680 MARCOxUPLODER Engine Starting...")
         
         # Start command in Render already runs uvicorn, so we just start the bot

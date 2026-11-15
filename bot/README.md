@@ -1,4 +1,4 @@
-# AkkiUp Bot - Automated Extraction & Uploading
+# MARCOxUPLODER Bot - Automated Extraction & Uploading
 
 This repository contains a Telegram Bot built with Pyrogram and FastAPI. It is designed to extract course content (Videos, PDFs) via APIs, generate text indexes, and automatically upload them to Telegram channels. It supports daily scheduled extractions and persistent state tracking.
 
