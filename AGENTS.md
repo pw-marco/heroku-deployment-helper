@@ -32,3 +32,4 @@ use the editor.
 ## Telegram bot (Heroku)
 - The Python Telegram bot lives in `bot/`; root `Dockerfile`, `heroku.yml` and `.dockerignore` build only `bot/` for Heroku's container stack — the web app files are never part of that image.
 - Bot credentials come only from environment variables (Heroku Config Vars); never hardcode them in `bot/`, because the repo is pushed to GitHub.
+- Direct link/TXT uploads (no PW login) live in `bot/plugins/direct_upload.py` and reuse `plugins.uploader`'s `CANCEL_TASKS`/`STOP_ALL_FLAG`, so `/cancel` and `/stopall` also stop them.

@@ -1,4 +1,13 @@
-# AkkiUp Bot - Automated Extraction & Uploading
+# MARCOxUPLODER Bot - Automated Extraction & Uploading
+
+⚡ Powered by Marco | Developed & Owned by @officialmarco22
+
+## Direct Link Upload (no login)
+- Send any download link (video, PDF, any file) in the bot chat, it downloads and uploads it to Telegram.
+- Send many links at once, one per line (`Title: link` works too).
+- Send a `.txt` file of links and press **⚡ Instant Upload (Direct Links)**.
+- `/upload <link>` also works; `/cancel` stops it.
+- Config var `DIRECT_UPLOAD_PREMIUM_ONLY` (`false` = everyone, `true` = only premium users).
 
 This repository contains a Telegram Bot built with Pyrogram and FastAPI. It is designed to extract course content (Videos, PDFs) via APIs, generate text indexes, and automatically upload them to Telegram channels. It supports daily scheduled extractions and persistent state tracking.
 

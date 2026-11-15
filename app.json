@@ -27,7 +27,7 @@
         },
         "CREDIT": {
             "description": "Enter Credit Name",
-            "value": "Akki StudyX",
+            "value": "MARCOxUPLODER",
             "required": true
         },
         "HOST_URL": {
@@ -58,6 +58,11 @@
         "AUTH_LOG_CHANNEL_ID": {
             "description": "Auth log channel ID",
             "value": "",
+            "required": false
+        },
+        "DIRECT_UPLOAD_PREMIUM_ONLY": {
+            "description": "false = sab users link/TXT se direct upload kar sakte hain, true = sirf Premium users",
+            "value": "false",
             "required": false
         }
     },

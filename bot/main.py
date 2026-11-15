@@ -41,27 +41,27 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
         logging.StreamHandler(),
-        logging.FileHandler('akkiup.log', encoding='utf-8')
+        logging.FileHandler('marcoup.log', encoding='utf-8')
     ]
 )
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
 logger = logging.getLogger(__name__)
 
-RISHI_BANNER = """
-   ██████╗ ██╗███████╗██╗  ██╗██╗
-   ██╔══██╗██║██╔════╝██║  ██║██║
-   ██████╔╝██║███████╗███████║██║    C_B
-   ██╔══██╗██║╚════██║██╔══██║██║    EXTRACTOR
-   ██║  ██║██║███████║██║  ██║██║
-   ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝╚═╝
- ⚡ THE ULTIMATE DRM BYPASS ENGINE ⚡
- 👑 Developed by: @rishisin070 👑
+BANNER = """
+   ███╗   ███╗ █████╗ ██████╗  ██████╗ ██████╗
+   ████╗ ████║██╔══██╗██╔══██╗██╔════╝██╔═══██╗
+   ██╔████╔██║███████║██████╔╝██║     ██║   ██║   x
+   ██║╚██╔╝██║██╔══██║██╔══██╗██║     ██║   ██║   UPLODER
+   ██║ ╚═╝ ██║██║  ██║██║  ██║╚██████╗╚██████╔╝
+   ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝
+ ⚡ MARCOxUPLODER — Powered by Marco ⚡
+ 👑 Developed & Owned by: @officialmarco22 👑
 """
 
-logger.info("Starting Rishi C_B Extractor...")
+logger.info("Starting MARCOxUPLODER...")
 
 app = Client(
-    "AkkiUploaderBot",
+    "MarcoUploaderBot",
     api_id=Config.API_ID,
     api_hash=Config.API_HASH,
     bot_token=Config.BOT_TOKEN,
@@ -136,8 +136,8 @@ if __name__ == "__main__":
         await server.serve()
 
     async def main():
-        print(RISHI_BANNER)
-        print("\U0001f680 Rishi C_B Modular Engine Starting...")
+        print(BANNER)
+        print("\U0001f680 MARCOxUPLODER Engine Starting...")
         
         # Start command in Render already runs uvicorn, so we just start the bot
         # asyncio.create_task(web_server())
@@ -148,6 +148,7 @@ if __name__ == "__main__":
         from pyrogram.types import BotCommand
         await app.set_bot_commands([
             BotCommand("start", "Start the bot & Open Dashboard"),
+            BotCommand("upload", "Link ya TXT se direct Video/PDF upload (no login)"),
             BotCommand("pwlogin", "Login to PW Account via Token"),
             BotCommand("getbatch", "Extract all contents of a Batch"),
             BotCommand("today", "Extract today's videos & notes"),

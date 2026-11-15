@@ -11,7 +11,7 @@ from config import Config
 PREMIUM_LOCK_MSG = (
     "❌ **Access Denied! Sirf Premium Users hi DRM Tools & Key Extraction use kar sakte hain.**\n\n"
     "💳 **Premium Subscription lene ke liye Admin se contact karein:**\n"
-    "👉 **Contact Admin:** @rishisin070\n\n"
+    "👉 **Contact Admin:** @officialmarco22\n\n"
     "ℹ️ *PW Login (`/pwlogin`) sabhi users ke liye Free hai.*"
 )
 

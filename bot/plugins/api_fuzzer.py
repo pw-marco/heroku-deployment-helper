@@ -8,7 +8,7 @@ import aiofiles.os
 
 logger = logging.getLogger(__name__)
 
-CREDIT = "\n\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n👑 **ᴅᴇᴠᴇʟᴏᴘᴇᴅ & ᴏᴡɴᴇᴅ ʙʏ: @rishisin070**\n⚡ *Powered by Cinemaa Boxoffice [C_B]*"
+CREDIT = "\n\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n👑 **ᴅᴇᴠᴇʟᴏᴘᴇᴅ & ᴏᴡɴᴇᴅ ʙʏ: @officialmarco22**\n⚡ *Powered by Marco*"
 
 @Client.on_message(filters.command("fuzz") & filters.private)
 async def api_fuzzer(client: Client, message):

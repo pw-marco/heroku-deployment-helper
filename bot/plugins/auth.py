@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # 👑 HACKER CREDIT STRING
-CREDIT = "\n\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n👑 **ᴅᴇᴠᴇʟᴏᴘᴇᴅ & ᴏᴡɴᴇᴅ ʙʏ: @rishisin070**\n⚡ *Powered by Cinemaa Boxoffice [C_B]*"
+CREDIT = "\n\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n👑 **ᴅᴇᴠᴇʟᴏᴘᴇᴅ & ᴏᴡɴᴇᴅ ʙʏ: @officialmarco22**\n⚡ *Powered by Marco*"
 
 # Request timeout
 REQUEST_TIMEOUT = aiohttp.ClientTimeout(total=30, connect=10)
@@ -69,10 +69,12 @@ async def start_command(client: Client, message):
     user_mention = message.from_user.mention
     welcome_msg = (
         f"HEY **{user_mention}**, AUM NAMAH SHIVAY 🙏\n\n"
-        "⚡ **RISHI C_B VIP EXTRACTOR** ⚡\n\n"
+        "⚡ **MARCOxUPLODER** ⚡\n\n"
         "➤ **System:** `Level-3 DRM Bypass & Fast Extractor` 🔐\n"
         "➤ **Status:** `100% Active & Ready` 🟢\n\n"
         "🎁 **AVAILABLE COMMANDS** 🎁\n\n"
+        "➜ **Link bhejo** ➭ Video/PDF seedha Telegram pe (No Login) ⚡\n"
+        "➜ **TXT file bhejo** ➭ Saare links Instant Upload 📄\n"
         "➜ **/pwlogin** ➭ Inject PW Accounts 🔑\n"
         "➜ **/mybatches** ➭ View & Scan Active Batches 📚\n"
         "➜ **/getbatch ID** ➭ Extract Full Batch Links 📥\n"
@@ -94,10 +96,13 @@ async def start_command(client: Client, message):
             InlineKeyboardButton("⏰ Auto-Scheduler", callback_data="dash:sched_help", style=enums.ButtonStyle.SUCCESS)
         ],
         [
+            InlineKeyboardButton("⚡ Direct Link Upload (No Login)", callback_data="dash:direct", style=enums.ButtonStyle.SUCCESS)
+        ],
+        [
             InlineKeyboardButton("✨ Premium Plan ✨", callback_data="dash:plan", style=enums.ButtonStyle.PRIMARY)
         ],
         [
-            InlineKeyboardButton("━━━ 👑 CINEMAA BOXOFFICE [C_B] ━━━", url="https://t.me/rishisin070", style=enums.ButtonStyle.SUCCESS)
+            InlineKeyboardButton("━━━ 👑 MARCOxUPLODER ━━━", url="https://t.me/officialmarco22", style=enums.ButtonStyle.SUCCESS)
         ]
     ])
     await message.reply_text(welcome_msg + CREDIT, reply_markup=start_buttons)
@@ -121,6 +126,10 @@ async def start_dashboard_callback(client: Client, callback_query):
         from database.mongo_db import get_premium_status
         status = await get_premium_status(callback_query.message.chat.id)
         await callback_query.message.reply_text(status)
+    elif action == "direct":
+        await callback_query.answer()
+        from plugins.direct_upload import UPLOAD_HELP, BRAND_CAPTION
+        await callback_query.message.reply_text(UPLOAD_HELP + BRAND_CAPTION)
     elif action == "sched_help":
         await callback_query.answer()
         help_text = (
