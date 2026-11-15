@@ -27,7 +27,7 @@
         },
         "CREDIT": {
             "description": "Enter Credit Name",
-            "value": "Akki StudyX",
+            "value": "MARCOxUPLODER",
             "required": true
         },
         "HOST_URL": {

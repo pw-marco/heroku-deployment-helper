@@ -6,9 +6,9 @@ from pyrogram.errors import FloodWait
 from config import Config
 
 # ==========================================
-# 👑 AKKI'S PREMIUM CONTROL ROOM
+# 👑 MARCO'S PREMIUM CONTROL ROOM
 # ==========================================
-CREDIT = "\n\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n👑 **ᴅᴇᴠᴇʟᴏᴘᴇᴅ & ᴏᴡɴᴇᴅ ʙʏ: @rishisin070**\n⚡ *Powered by Cinemaa Boxoffice [C_B]*"
+CREDIT = "\n\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n👑 **ᴅᴇᴠᴇʟᴏᴘᴇᴅ & ᴏᴡɴᴇᴅ ʙʏ: @officialmarco22**\n⚡ *Powered by Marco*"
 TOTAL_USERS = set()
 
 from database.mongo_db import add_premium_user, remove_premium_user, is_premium_user, get_all_users, get_premium_status
@@ -33,7 +33,7 @@ async def add_auth_user(client: Client, message: Message):
             try:
                 await client.send_message(
                     new_user, 
-                    f"🎉 **Badhai Ho! Aapko Cinemaa Boxoffice [C_B] ka Premium Access mil gaya hai!**\n\n"
+                    f"🎉 **Badhai Ho! Aapko MARCOxUPLODER ka Premium Access mil gaya hai!**\n\n"
                     f"⏳ **Duration:** `{duration}`\n"
                     f"📅 **Expiry:** `{exp_info}`\n\n"
                     f"Ab aap batches extract and download kar sakte hain! 🚀"
@@ -144,7 +144,7 @@ async def text_to_html(client: Client, message: Message):
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>{batch_name} | Cinemaa Boxoffice</title>
+            <title>{batch_name} | MARCOxUPLODER</title>
             <style>
                 body {{ background-color: #121212; color: #ffffff; font-family: Arial, sans-serif; padding: 20px; }}
                 h1 {{ text-align: center; color: #00e676; border-bottom: 2px solid #333; padding-bottom: 10px; }}
@@ -165,7 +165,7 @@ async def text_to_html(client: Client, message: Message):
                 <div class="section-title">📕 PDF Notes ({len(pdfs)})</div>
                 {"".join([f'<a href="{url}" target="_blank">📄 {name}</a>' for name, url in pdfs])}
                 
-                <div class="footer">⚡ Extracted by: Rishi C_B Extractor | Powered by Cinemaa Boxoffice</div>
+                <div class="footer">⚡ Extracted by: MARCOxUPLODER | Powered by Marco</div>
             </div>
         </body>
         </html>

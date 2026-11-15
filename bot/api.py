@@ -21,7 +21,7 @@ from pywidevine.pssh import PSSH
 from motor.motor_asyncio import AsyncIOMotorClient
 from config import Config
 
-app = FastAPI(title="Rishi C_B Secure DRM API")
+app = FastAPI(title="MARCOxUPLODER Secure DRM API")
 API_KEY = os.getenv("API_SECRET_KEY", "")
 api_key_header = APIKeyHeader(name="X-API-KEY", auto_error=True)
 
@@ -610,7 +610,7 @@ async def auto_play_video(url: str, parentId: str, childId: str, token: str):
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Rishi C_B Stream Engine ⚡</title>
+            <title>MARCOxUPLODER Stream Engine ⚡</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.compiled.js"></script>
             <style>
@@ -655,7 +655,7 @@ async def auto_play_video(url: str, parentId: str, childId: str, token: str):
         return f"<h1 style='color:red; text-align:center;'>Internal API Error: {str(e)}</h1>"
 
 @app.get("/")
-async def root(): return {"status": "ok", "message": "Rishi C_B API Running"}
+async def root(): return {"status": "ok", "message": "MARCOxUPLODER API Running"}
 
 @app.get("/health")
 async def health():

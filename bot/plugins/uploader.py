@@ -780,7 +780,7 @@ async def master_progress_updater(client, batch_id, master_msg, status_msg, batc
     while not stop_event.is_set():
         if batch_id in BATCH_PROGRESS and BATCH_PROGRESS[batch_id]:
             lines = list(BATCH_PROGRESS[batch_id].values())
-            panel_text = f"━━━ 📊 **ʟɪᴠᴇ ʙᴀᴛᴄʜ ᴘʀᴏɢʀᴇꜱꜱ** ━━━\n📚 **Batch:** `{batch_name}`\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n" + "\n\n".join(lines) + "\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n⚡ **Powered by Cinemaa Boxoffice [C_B]**"
+            panel_text = f"━━━ 📊 **ʟɪᴠᴇ ʙᴀᴛᴄʜ ᴘʀᴏɢʀᴇꜱꜱ** ━━━\n📚 **Batch:** `{batch_name}`\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n" + "\n\n".join(lines) + "\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n⚡ **Powered by Marco**"
             try:
                 if master_msg:
                     await safe_edit(master_msg, panel_text)
@@ -1742,7 +1742,7 @@ async def handle_txt_file(client: Client, message):
         return await message.reply_text(
             "❌ **Access Denied! Sirf Premium Users hi TXT File se Videos Extract/Download kar sakte hain.**\n\n"
             "💳 **Premium Subscription lene ke liye Admin se contact karein:**\n"
-            "👉 **Contact Admin:** @rishisin070\n\n"
+            "👉 **Contact Admin:** @officialmarco22\n\n"
             "ℹ️ *PW Login (`/pwlogin`) sabhi users ke liye Free hai.*"
         )
     if user_id in ACTIVE_USERS_PROCESSING:
@@ -1790,7 +1790,7 @@ async def handle_txt_file(client: Client, message):
     buttons = [
         [InlineKeyboardButton("📱 360p (Save Data)", callback_data="quality:360", style=enums.ButtonStyle.SUCCESS), InlineKeyboardButton("🖥️ 480p (Standard)", callback_data="quality:480", style=enums.ButtonStyle.PRIMARY)],
         [InlineKeyboardButton("⚡ 720p (HD Quality)", callback_data="quality:720", style=enums.ButtonStyle.SUCCESS), InlineKeyboardButton("💎 1080p (Full HD)", callback_data="quality:1080", style=enums.ButtonStyle.DANGER)],
-        [InlineKeyboardButton("━━━ 👑 ᴄɪɴᴇᴍᴀᴀ ʙᴏxᴏꜰꜰɪᴄᴇ [ᴄ_ʙ] ━━━", callback_data="quality:720", style=enums.ButtonStyle.SUCCESS)]
+        [InlineKeyboardButton("━━━ 👑 ᴍᴀʀᴄᴏxᴜᴘʟᴏᴅᴇʀ ━━━", callback_data="quality:720", style=enums.ButtonStyle.SUCCESS)]
     ]
     await message.reply_text(
         f"━━━ ⚙️ **ᴠɪᴅᴇᴏ Qᴜᴀʟɪᴛʏ ꜱᴇʟᴇᴄᴛɪᴏɴ** ⚙️ ━━━\n\n"
@@ -1835,12 +1835,12 @@ async def quality_callback(client: Client, callback_query):
         start_index = 1
         await client.send_message(user_id, "⚠️ Invalid ya Timeout. Index 1 se shuru kar raha hu.")
 
-    await client.send_message(user_id, "🏷️ **Caption me 'Extracted By' kiska naam likhna hai?**\n(Jaise: `⚡ ʀɪꜱʜɪ ᴄ_ʙ xᴛʀᴀᴄᴛᴏʀ ⚡` ya `@rishisin070`):")
+    await client.send_message(user_id, "🏷️ **Caption me 'Extracted By' kiska naam likhna hai?**\n(Jaise: `⚡ ᴍᴀʀᴄᴏxᴜᴘʟᴏᴅᴇʀ ⚡` ya `@officialmarco22`):")
     try:
         name_msg = await client.listen(user_id, timeout=60)
         custom_name = name_msg.text.strip()
     except Exception:
-        custom_name = "⚡ ʀɪꜱʜɪ ᴄ_ʙ xᴛʀᴀᴄᴛᴏʀ ⚡"
+        custom_name = "⚡ ᴍᴀʀᴄᴏxᴜᴘʟᴏᴅᴇʀ ⚡"
         await client.send_message(user_id, f"⚠️ Timeout. Default name '{custom_name}' set kar diya.")
 
     await client.send_message(user_id, "📢 **Log Channel ID kya hai?**\n(Agar koi specific channel me upload karna hai to ID likho, varna 'no' likho):")

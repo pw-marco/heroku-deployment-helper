@@ -17,7 +17,7 @@ import aiofiles.os
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-CREDIT = "\n\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n👑 **ᴅᴇᴠᴇʟᴏᴘᴇᴅ & ᴏᴡɴᴇᴅ ʙʏ: @rishisin070**\n⚡ *Powered by Cinemaa Boxoffice [C_B]*"
+CREDIT = "\n\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n👑 **ᴅᴇᴠᴇʟᴏᴘᴇᴅ & ᴏᴡɴᴇᴅ ʙʏ: @officialmarco22**\n⚡ *Powered by Marco*"
 
 _extractor_session: aiohttp.ClientSession | None = None
 REQUEST_TIMEOUT = aiohttp.ClientTimeout(total=40, connect=15)
@@ -246,7 +246,7 @@ async def my_batches_list(client: Client, message):
         return await message.reply_text(
             "❌ **Access Denied! Sirf Premium Users hi Batches View/Extract kar sakte hain.**\n\n"
             "💳 **Premium Subscription lene ke liye Admin se contact karein:**\n"
-            "👉 **Contact Admin:** @rishisin070\n\n"
+            "👉 **Contact Admin:** @officialmarco22\n\n"
             "ℹ️ *PW Login (`/pwlogin`) sabhi users ke liye Free hai.*"
         )
         
@@ -297,7 +297,7 @@ async def extract_batch(client: Client, message, target_sub_id=None):
         return await message.reply_text(
             "❌ **Access Denied! Sirf Premium Users hi Batches Extract kar sakte hain.**\n\n"
             "💳 **Premium Subscription lene ke liye Admin se contact karein:**\n"
-            "👉 **Contact Admin:** @rishisin070\n\n"
+            "👉 **Contact Admin:** @officialmarco22\n\n"
             "ℹ️ *PW Login (`/pwlogin`) sabhi users ke liye Free hai.*"
         )
 
@@ -409,7 +409,7 @@ async def extract_batch(client: Client, message, target_sub_id=None):
         
         extracted_data = [
             "=================================\n",
-            "⚡ EXTRACTED BY: RISHI C_B EXTRACTOR ⚡\n",
+            "⚡ EXTRACTED BY: MARCOxUPLODER ⚡\n",
             f"📚 BATCH: {batch_name}\n=================================\n"
         ]
 
@@ -935,7 +935,7 @@ async def extract_batch(client: Client, message, target_sub_id=None):
         if total_items > 0:
             await status_msg.edit_text(f"✅ **Extraction Complete! Sequence Matched & Duplicates Removed.**")
             caption = (
-                f"━━━ ⚡ **RISHI C_B VIP EXTRACTOR** ⚡ ━━━\n\n"
+                f"━━━ ⚡ **MARCOxUPLODER** ⚡ ━━━\n\n"
                 f"➤ **Batch:** `{batch_name}` 📚\n"
                 f"➤ **Total Links:** `{total_items}` 🔗\n\n"
                 f"🎁 **UPLOAD OPTIONS** 🎁\n\n"
@@ -948,7 +948,7 @@ async def extract_batch(client: Client, message, target_sub_id=None):
             up_buttons = InlineKeyboardMarkup([
                 [InlineKeyboardButton("🚀 Start Upload ALL (Full TXT)", callback_data="uptxt:all", style=enums.ButtonStyle.SUCCESS)],
                 [InlineKeyboardButton("🔢 Upload Specific Index / Range", callback_data="uptxt:sel", style=enums.ButtonStyle.PRIMARY)],
-                [InlineKeyboardButton("━━━ 👑 CINEMAA BOXOFFICE [C_B] ━━━", callback_data="uptxt:all", style=enums.ButtonStyle.SUCCESS)]
+                [InlineKeyboardButton("━━━ 👑 MARCOxUPLODER ━━━", callback_data="uptxt:all", style=enums.ButtonStyle.SUCCESS)]
             ])
             await client.send_document(chat_id=message.chat.id, document=file_name, caption=caption, reply_markup=up_buttons)
             await aiofiles.os.remove(file_name)

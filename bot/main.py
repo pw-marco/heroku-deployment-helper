@@ -41,7 +41,7 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
         logging.StreamHandler(),
-        logging.FileHandler('akkiup.log', encoding='utf-8')
+        logging.FileHandler('marcoup.log', encoding='utf-8')
     ]
 )
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
@@ -55,13 +55,13 @@ RISHI_BANNER = """
    ██║  ██║██║███████║██║  ██║██║
    ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝╚═╝
  ⚡ THE ULTIMATE DRM BYPASS ENGINE ⚡
- 👑 Developed by: @rishisin070 👑
+ 👑 Developed by: @officialmarco22 👑
 """
 
-logger.info("Starting Rishi C_B Extractor...")
+logger.info("Starting MARCOxUPLODER...")
 
 app = Client(
-    "AkkiUploaderBot",
+    "MarcoUploaderBot",
     api_id=Config.API_ID,
     api_hash=Config.API_HASH,
     bot_token=Config.BOT_TOKEN,
@@ -137,7 +137,7 @@ if __name__ == "__main__":
 
     async def main():
         print(RISHI_BANNER)
-        print("\U0001f680 Rishi C_B Modular Engine Starting...")
+        print("\U0001f680 MARCOxUPLODER Engine Starting...")
         
         # Start command in Render already runs uvicorn, so we just start the bot
         # asyncio.create_task(web_server())

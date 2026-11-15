@@ -345,7 +345,7 @@ async def execute_scheduled_job(client: Client, user_id: int, batch_id: str, tar
     
     new_items = []
     new_ids = []
-    txt_content = f"=================================\n⚡ RISHI C_B EXTRACTOR - DELTA SYNC ⚡\n📚 BATCH: {batch_name}\n⏰ TIME: {datetime.now(IST).strftime('%Y-%m-%d %I:%M %p')}\n=================================\n\n"
+    txt_content = f"=================================\n⚡ MARCOxUPLODER - DELTA SYNC ⚡\n📚 BATCH: {batch_name}\n⏰ TIME: {datetime.now(IST).strftime('%Y-%m-%d %I:%M %p')}\n=================================\n\n"
     
     for c in all_contents:
         if c["_id"] not in history_ids:
@@ -396,7 +396,7 @@ async def execute_scheduled_job(client: Client, user_id: int, batch_id: str, tar
         log_channel_id=upload_target_id,
         batch_name=batch_name,
         quality="720",
-        custom_name="⚡ ʀɪꜱʜɪ ᴄ_ʙ xᴛʀᴀᴄᴛᴏʀ ⚡",
+        custom_name="⚡ ᴍᴀʀᴄᴏxᴜᴘʟᴏᴅᴇʀ ⚡",
         start_index=1,
         items=new_items,
         status_msg=uploader_status_msg,
