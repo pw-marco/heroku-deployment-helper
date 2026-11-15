@@ -40,6 +40,7 @@ const steps: { title: string; body: string[] }[] = [
       "Settings → Reveal Config Vars me ye daalo:",
       "API_ID, API_HASH, BOT_TOKEN, MONGO_URL, OWNER_ID, API_SECRET_KEY, LOG_CHANNEL_ID, AUTH_LOG_CHANNEL_ID",
       "HOST_URL = https://<app-name>.herokuapp.com (Settings → Domains me dikhega)",
+      "DIRECT_UPLOAD_PREMIUM_ONLY = false (sab log link bhej kar file le sakte hain) ya true (sirf Premium users)",
     ],
   },
   {
