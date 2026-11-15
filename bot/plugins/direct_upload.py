@@ -164,32 +164,75 @@ def filename_from_response(resp, url, title, ctype):
     return f"{base}{ext}"
 
 
+class _Blocked(Exception):
+    pass
+
+
+async def _stream_to_file(chunks, path, user_id, total, on_progress):
+    done = 0
+    async with aiofiles.open(path, "wb") as f:
+        async for chunk in chunks:
+            if is_cancelled(user_id):
+                raise DirectCancelled()
+            if not chunk:
+                continue
+            await f.write(chunk)
+            done += len(chunk)
+            if done > MAX_SIZE:
+                raise DirectError("File 2 GB se badi hai")
+            await on_progress(done, total)
+    if done == 0:
+        raise DirectError("Khali file mili (0 bytes)")
+    return path
+
+
+def _check_response(status, ctype, total):
+    if status in (401, 403, 429, 503):
+        raise _Blocked(f"Server ne HTTP {status} diya")
+    if status >= 400:
+        raise DirectError(f"Server ne HTTP {status} diya")
+    if total > MAX_SIZE:
+        raise DirectError(f"File {humanbytes(total)} ki hai, 2 GB se badi file Telegram pe nahi jaati")
+    return not ctype.startswith("text/html")
+
+
+async def _browser_download(url, dest_dir, title, user_id, on_progress):
+    """Retry with a real-browser fingerprint (curl_cffi) for sites that block bots."""
+    from curl_cffi.requests import AsyncSession
+    async with AsyncSession(impersonate="chrome", timeout=None, verify=False) as s:
+        resp = await s.get(url, stream=True, allow_redirects=True)
+        try:
+            ctype = (resp.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+            total = int(resp.headers.get("Content-Length") or 0)
+            try:
+                is_file = _check_response(resp.status_code, ctype, total)
+            except _Blocked as e:
+                raise DirectError(str(e))
+            if not is_file:
+                return None
+            path = os.path.join(dest_dir, filename_from_response(resp, url, title, ctype))
+            return await _stream_to_file(resp.aiter_content(), path, user_id, total, on_progress)
+        finally:
+            await resp.aclose()
+
+
 async def http_download(url, dest_dir, title, user_id, on_progress):
+    try:
+        return await _aiohttp_download(url, dest_dir, title, user_id, on_progress)
+    except _Blocked:
+        return await _browser_download(url, dest_dir, title, user_id, on_progress)
+
+
+async def _aiohttp_download(url, dest_dir, title, user_id, on_progress):
     timeout = aiohttp.ClientTimeout(total=None, sock_connect=30, sock_read=180)
     async with aiohttp.ClientSession(headers=HEADERS, timeout=timeout) as session:
         async with session.get(url, allow_redirects=True, ssl=False) as resp:
-            if resp.status >= 400:
-                raise DirectError(f"Server ne HTTP {resp.status} diya")
             ctype = resp.headers.get("Content-Type", "").split(";")[0].strip().lower()
-            if ctype.startswith("text/html"):
-                return None  # web page, let yt-dlp try
             total = int(resp.headers.get("Content-Length") or 0)
-            if total > MAX_SIZE:
-                raise DirectError(f"File {humanbytes(total)} ki hai, 2 GB se badi file Telegram pe nahi jaati")
+            if not _check_response(resp.status, ctype, total):
+                return None  # web page, let yt-dlp try
             path = os.path.join(dest_dir, filename_from_response(resp, url, title, ctype))
-            done = 0
-            async with aiofiles.open(path, "wb") as f:
-                async for chunk in resp.content.iter_chunked(1024 * 1024):
-                    if is_cancelled(user_id):
-                        raise DirectCancelled()
-                    await f.write(chunk)
-                    done += len(chunk)
-                    if done > MAX_SIZE:
-                        raise DirectError("File 2 GB se badi hai")
-                    await on_progress(done, total)
-            if done == 0:
-                raise DirectError("Khali file mili (0 bytes)")
-            return path
+            return await _stream_to_file(resp.content.iter_chunked(1024 * 1024), path, user_id, total, on_progress)
 
 
 def _ytdlp_download(url, dest_dir, title, quality, user_id, hook):
