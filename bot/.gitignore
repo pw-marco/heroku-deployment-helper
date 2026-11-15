@@ -22,6 +22,7 @@ temp_chunks_*
 *.jpeg
 *.png
 *.txt
+!requirements.txt
 
 # Binary Download Tools (downloaded by Dockerfile / setup_re_binary)
 N_m3u8DL-RE.exe
