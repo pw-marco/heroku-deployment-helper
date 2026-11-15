@@ -59,6 +59,11 @@
             "description": "Auth log channel ID",
             "value": "",
             "required": false
+        },
+        "DIRECT_UPLOAD_PREMIUM_ONLY": {
+            "description": "false = sab users link/TXT se direct upload kar sakte hain, true = sirf Premium users",
+            "value": "false",
+            "required": false
         }
     },
     "formation": {
