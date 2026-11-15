@@ -426,7 +426,8 @@ async def upload_command(client: Client, message: Message):
             except Exception:
                 pass
         batch = reply.document.file_name[:-4].replace("_", " ")
-        return await run_direct_upload(client, user_id, message.chat.id, parse_links(text), batch_name=batch)
+        asyncio.create_task(run_direct_upload(client, user_id, message.chat.id, parse_links(text), batch_name=batch))
+        return
 
     text = (message.text or "").split(None, 1)
     items = parse_links(text[1]) if len(text) > 1 else []
@@ -434,7 +435,7 @@ async def upload_command(client: Client, message: Message):
         items = parse_links(reply.text or reply.caption or "")
     if not items:
         return await message.reply_text(UPLOAD_HELP + BRAND_CAPTION)
-    await run_direct_upload(client, user_id, message.chat.id, items)
+    asyncio.create_task(run_direct_upload(client, user_id, message.chat.id, items))
 
 
 @Client.on_message(filters.private & filters.text & ~filters.regex(r"^/"), group=1)
@@ -446,7 +447,7 @@ async def link_message_handler(client: Client, message: Message):
     user_id = message.chat.id
     if not await can_use_direct(user_id):
         return await _deny(message)
-    await run_direct_upload(client, user_id, message.chat.id, parse_links(message.text))
+    asyncio.create_task(run_direct_upload(client, user_id, message.chat.id, parse_links(message.text)))
 
 
 @Client.on_callback_query(filters.regex(r"^directtxt$"))
@@ -466,10 +467,4 @@ async def direct_txt_callback(client: Client, callback_query):
         pass
     items = [{"title": it.get("title") or title_from_url(it["url"]), "url": it["url"]} for it in state["items"]]
     up.UPLOAD_STATE.pop(user_id, None)
-    await run_direct_upload(client, user_id, user_id, items, batch_name=state.get("batch_name"))
-
-
-@Client.on_callback_query(filters.regex(r"^dash:direct$"))
-async def direct_help_callback(client: Client, callback_query):
-    await callback_query.answer()
-    await callback_query.message.reply_text(UPLOAD_HELP + BRAND_CAPTION)
+    asyncio.create_task(run_direct_upload(client, user_id, user_id, items, batch_name=state.get("batch_name")))

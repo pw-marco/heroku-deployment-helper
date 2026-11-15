@@ -73,6 +73,8 @@ async def start_command(client: Client, message):
         "➤ **System:** `Level-3 DRM Bypass & Fast Extractor` 🔐\n"
         "➤ **Status:** `100% Active & Ready` 🟢\n\n"
         "🎁 **AVAILABLE COMMANDS** 🎁\n\n"
+        "➜ **Link bhejo** ➭ Video/PDF seedha Telegram pe (No Login) ⚡\n"
+        "➜ **TXT file bhejo** ➭ Saare links Instant Upload 📄\n"
         "➜ **/pwlogin** ➭ Inject PW Accounts 🔑\n"
         "➜ **/mybatches** ➭ View & Scan Active Batches 📚\n"
         "➜ **/getbatch ID** ➭ Extract Full Batch Links 📥\n"
@@ -92,6 +94,9 @@ async def start_command(client: Client, message):
         [
             InlineKeyboardButton("🎟️ Master Tokens", callback_data="dash:tokens", style=enums.ButtonStyle.PRIMARY),
             InlineKeyboardButton("⏰ Auto-Scheduler", callback_data="dash:sched_help", style=enums.ButtonStyle.SUCCESS)
+        ],
+        [
+            InlineKeyboardButton("⚡ Direct Link Upload (No Login)", callback_data="dash:direct", style=enums.ButtonStyle.SUCCESS)
         ],
         [
             InlineKeyboardButton("✨ Premium Plan ✨", callback_data="dash:plan", style=enums.ButtonStyle.PRIMARY)
@@ -121,6 +126,10 @@ async def start_dashboard_callback(client: Client, callback_query):
         from database.mongo_db import get_premium_status
         status = await get_premium_status(callback_query.message.chat.id)
         await callback_query.message.reply_text(status)
+    elif action == "direct":
+        await callback_query.answer()
+        from plugins.direct_upload import UPLOAD_HELP, BRAND_CAPTION
+        await callback_query.message.reply_text(UPLOAD_HELP + BRAND_CAPTION)
     elif action == "sched_help":
         await callback_query.answer()
         help_text = (

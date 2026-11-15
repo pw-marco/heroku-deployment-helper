@@ -19,6 +19,9 @@ class Config:
     LOG_CHANNEL_ID = int(os.environ.get("LOG_CHANNEL_ID") or 0)
     AUTH_LOG_CHANNEL_ID = int(os.environ.get("AUTH_LOG_CHANNEL_ID") or 0)
 
+    # Direct link upload (no PW login). "true" = sirf Premium users, "false" = sab users
+    DIRECT_UPLOAD_PREMIUM_ONLY = os.environ.get("DIRECT_UPLOAD_PREMIUM_ONLY", "false").strip().lower() in ("1", "true", "yes", "on")
+
     @classmethod
     def get_api_base_urls(cls):
         port = os.environ.get("PORT", "8000")

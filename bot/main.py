@@ -148,6 +148,7 @@ if __name__ == "__main__":
         from pyrogram.types import BotCommand
         await app.set_bot_commands([
             BotCommand("start", "Start the bot & Open Dashboard"),
+            BotCommand("upload", "Link ya TXT se direct Video/PDF upload (no login)"),
             BotCommand("pwlogin", "Login to PW Account via Token"),
             BotCommand("getbatch", "Extract all contents of a Batch"),
             BotCommand("today", "Extract today's videos & notes"),
