@@ -1738,19 +1738,22 @@ async def handle_txt_file(client: Client, message):
     user_id = message.chat.id
     if STOP_ALL_FLAG and user_id != Config.OWNER_ID:
         return await message.reply_text("⛔ **Admin Notice:** All uploads & extractions are currently STOPPED by Admin. Please try again later!")
-    if not await is_premium_user(user_id):
+    is_prem = await is_premium_user(user_id)
+    free_direct = not Config.DIRECT_UPLOAD_PREMIUM_ONLY
+    if not is_prem and not free_direct:
         return await message.reply_text(
             "❌ **Access Denied! Sirf Premium Users hi TXT File se Videos Extract/Download kar sakte hain.**\n\n"
             "💳 **Premium Subscription lene ke liye Admin se contact karein:**\n"
             "👉 **Contact Admin:** @officialmarco22\n\n"
             "ℹ️ *PW Login (`/pwlogin`) sabhi users ke liye Free hai.*"
         )
-    if user_id in ACTIVE_USERS_PROCESSING:
+    if is_prem and user_id in ACTIVE_USERS_PROCESSING:
         return await message.reply_text("⏳ **Aapka ek Batch already Upload ho raha hai! Pehle use complete hone dein ya /stop dabayein.**")
 
     while user_id in CANCEL_TASKS:
         CANCEL_TASKS.remove(user_id)
-    ACTIVE_USERS_PROCESSING.add(user_id)
+    if is_prem:
+        ACTIVE_USERS_PROCESSING.add(user_id)
     file_path = await client.download_media(message)
     with open(file_path, 'r', encoding='utf-8') as f: 
         content = f.read()
@@ -1781,13 +1784,27 @@ async def handle_txt_file(client: Client, message):
                 
                 items.append({"title": raw_title, "url": url, "is_video": is_video, "thumb_url": thumb_url})
 
-    if not items: return await status_msg.edit_text("❌ **Is file me koi valid link nahi mila!**")
+    if not items:
+        ACTIVE_USERS_PROCESSING.discard(user_id)
+        return await status_msg.edit_text("❌ **Is file me koi valid link nahi mila!**")
 
     show_index = not ("NEW" in message.document.file_name)
     UPLOAD_STATE[user_id] = {"batch_name": batch_name, "items": items, "show_index": show_index}
     await status_msg.delete()
 
+    instant_row = [InlineKeyboardButton("⚡ Instant Upload (Direct Links)", callback_data="directtxt", style=enums.ButtonStyle.SUCCESS)]
+    if not is_prem:
+        return await message.reply_text(
+            f"━━━ ⚡ **ᴍᴀʀᴄᴏxᴜᴘʟᴏᴅᴇʀ** ⚡ ━━━\n\n"
+            f"📄 **File:** `{batch_name}`\n"
+            f"🔗 **Links mile:** `{len(items)}`\n\n"
+            f"Neeche button dabao, saare Video/PDF links download hokar yahin aa jayenge.\n"
+            f"⚠️ DRM / locked videos ke liye Premium chahiye.",
+            reply_markup=InlineKeyboardMarkup([instant_row])
+        )
+
     buttons = [
+        instant_row,
         [InlineKeyboardButton("📱 360p (Save Data)", callback_data="quality:360", style=enums.ButtonStyle.SUCCESS), InlineKeyboardButton("🖥️ 480p (Standard)", callback_data="quality:480", style=enums.ButtonStyle.PRIMARY)],
         [InlineKeyboardButton("⚡ 720p (HD Quality)", callback_data="quality:720", style=enums.ButtonStyle.SUCCESS), InlineKeyboardButton("💎 1080p (Full HD)", callback_data="quality:1080", style=enums.ButtonStyle.DANGER)],
         [InlineKeyboardButton("━━━ 👑 ᴍᴀʀᴄᴏxᴜᴘʟᴏᴅᴇʀ ━━━", callback_data="quality:720", style=enums.ButtonStyle.SUCCESS)]
