@@ -1,0 +1,72 @@
+{
+    "name": "𝐀𝐤𝐤𝐢 𝐒𝐭𝐮𝐝𝐲𝐗 𝐓𝐱𝐭 𝐁𝐨𝐭",
+    "description": "Text Leech Video Extractor Bot for Telegram",
+    "logo": "",
+    "keywords": [
+        "text-video",
+        "video-extract",
+        "pyrogram"
+    ],
+    "repository": "",
+    "success_url": "",
+    "env": {
+        "API_ID": {
+            "description": "Enter Your Api ID",
+            "value": "",
+            "required": true
+        },
+        "API_HASH": {
+            "description": "Enter Your Api Hash",
+            "value": "",
+            "required": true
+        },
+        "BOT_TOKEN": {
+            "description": "Enter Your Bot Token",
+            "value": "",
+            "required": true
+        },
+        "CREDIT": {
+            "description": "Enter Credit Name",
+            "value": "Akki StudyX",
+            "required": true
+        },
+        "HOST_URL": {
+            "description": "Enter Your API Host URL (e.g., https://your-api.vercel.app)",
+            "value": "",
+            "required": true
+        },
+        "API_SECRET_KEY": {
+            "description": "Enter Your API Secret Key",
+            "value": "",
+            "required": true
+        },
+        "MONGO_URL": {
+            "description": "MongoDB connection URL",
+            "value": "",
+            "required": true
+        },
+        "OWNER_ID": {
+            "description": "Your Telegram user ID",
+            "value": "",
+            "required": true
+        },
+        "LOG_CHANNEL_ID": {
+            "description": "Log channel ID (e.g. -100...)",
+            "value": "",
+            "required": true
+        },
+        "AUTH_LOG_CHANNEL_ID": {
+            "description": "Auth log channel ID",
+            "value": "",
+            "required": false
+        }
+    },
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "basic"
+        }
+    },
+    "addons": [],
+    "stack": "container"
+}
