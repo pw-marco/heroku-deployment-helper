@@ -17,7 +17,10 @@ CREDIT = "\n\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️
 # Request timeout
 REQUEST_TIMEOUT = aiohttp.ClientTimeout(total=30, connect=10)
 
-# Inline session manager - session_manager.py ki zaroorat nahi
+# 🟢 NEW: PW Auth Worker base URL
+PW_AUTH_WORKER = "https://p-auth.raghutiwari554-34f.workers.dev"
+
+# Inline session manager
 _global_session = None
 
 async def get_global_session() -> aiohttp.ClientSession:
@@ -147,7 +150,7 @@ async def start_dashboard_callback(client: Client, callback_query):
 
 @Client.on_message(filters.command("pwlogin") & filters.private)
 async def pw_login_handler(client: Client, message):
-    """Handle PW login - supports token, password, and OTP"""
+    """Handle PW login - supports token, password, and OTP (via PW Auth Worker)"""
     try:
         ask = await message.reply_text(
             "━━━ 🔑 **PW Auto-Login System** 🔑 ━━━\n\n"
@@ -195,7 +198,7 @@ async def pw_login_handler(client: Client, message):
                 except asyncio.TimeoutError:
                     return await ask.edit("❌ API timeout! Dubara try karo.")
 
-            # PASSWORD LOGIN
+            # PASSWORD LOGIN (unchanged)
             elif "*" in raw_text:
                 num, pwd = raw_text.split("*", 1)
                 await ask.edit("🔄 Password se login kar raha hu...")
@@ -220,7 +223,6 @@ async def pw_login_handler(client: Client, message):
                         token = data.get("data", {}).get("access_token") or data.get("access_token")
 
                         if token:
-                            # Save token|randomid format so it works with new DRM
                             r_id = headers.get("randomid", "")
                             save_str = f"{token}|{r_id}" if r_id else token
                             await save_user_token(message.chat.id, save_str)
@@ -234,73 +236,104 @@ async def pw_login_handler(client: Client, message):
                 except asyncio.TimeoutError:
                     return await ask.edit("❌ API timeout! Dubara try karo.")
 
-            # OTP LOGIN
+            # 🟢 OTP LOGIN — REPLACED WITH PW AUTH WORKER
             else:
-                await ask.edit("🔄 OTP bhej raha hu...")
-                otp_payload = {
-                    "username": raw_text,
-                    "countryCode": "+91",
-                    "organizationId": "5eb393ee95fab7468a79d189"
-                }
+                await ask.edit("🔄 OTP bhej raha hu... (PW Auth Worker)")
+
+                # Ensure number is prefixed with country code 91 (Worker requires 91XXXXXXXXXX)
+                num_clean = raw_text.replace(" ", "").replace("-", "").replace("+", "")
+                if not num_clean.startswith("91") or len(num_clean) != 12:
+                    # If user gave 10-digit number, prepend 91
+                    if len(num_clean) == 10 and num_clean.isdigit():
+                        num_clean = "91" + num_clean
+                    # else assume it's already with country code
+
+                # --- SEND OTP via Worker ---
+                send_otp_url = f"{PW_AUTH_WORKER}/api/send-otp?num={num_clean}&smstype=0"
 
                 try:
-                    async with session.post(
-                        "https://api.penpencil.co/v1/users/get-otp?smsType=0&fallback=true",
-                        json=otp_payload,
-                        headers=headers,
+                    async with session.get(
+                        send_otp_url,
                         proxy=Config.get_random_proxy()
                     ) as res:
                         res_text = await res.text()
 
-                        if res.status in [200, 201, 202] or '"success":true' in res_text.replace(" ", ""):
-                            await ask.edit("✅ OTP Sent! Jaldi se SMS wala OTP bhejein:")
+                        # Worker returns JSON like {"success": true, ...} on success
+                        is_success = False
+                        try:
+                            j = await res.json()
+                            if j.get("success") is True or j.get("status") is True or j.get("status") == "success":
+                                is_success = True
+                        except Exception:
+                            if res.status in (200, 201, 202) and "success" in res_text.lower():
+                                is_success = True
 
-                            try:
-                                otp_in = await client.listen(message.chat.id, timeout=60)
-                                if not otp_in.text:
-                                    return await ask.edit("❌ Invalid OTP Format!")
+                        if not is_success:
+                            return await ask.edit(
+                                f"❌ **OTP Sending Failed!**\n\n"
+                                f"🌐 Worker Response:\n`{res_text[:500]}`"
+                            )
 
-                                otp_code = otp_in.text.strip()
-                                await ask.edit("🔄 OTP Verify kar raha hu...")
+                        await ask.edit("✅ OTP Sent! Jaldi se SMS wala OTP bhejein:")
 
-                                verify_payload = {
-                                    "username": raw_text,
-                                    "otp": otp_code,
-                                    "organizationId": "5eb393ee95fab7468a79d189",
-                                    "client_id": "5eb393ee95fab7468a79d189",
-                                    "client_secret": "KjPXuAVfC5xbmgreETNMaL7z",
-                                    "grant_type": "password"
-                                }
+                        try:
+                            otp_in = await client.listen(message.chat.id, timeout=60)
+                            if not otp_in.text:
+                                return await ask.edit("❌ Invalid OTP Format!")
 
-                                async with session.post(
-                                    "https://api.penpencil.co/v1/oauth/token",
-                                    json=verify_payload,
-                                    headers=headers,
-                                    proxy=Config.get_random_proxy()
-                                ) as verify_res:
-                                    verify_data = await verify_res.json()
-                                    token = verify_data.get("data", {}).get("access_token") or verify_data.get("access_token")
+                            otp_code = otp_in.text.strip()
+                            await ask.edit("🔄 OTP Verify kar raha hu... (PW Auth Worker)")
 
-                                    if token:
-                                        # Save token|randomid format so it works with new DRM
-                                        r_id = headers.get("randomid", "")
-                                        save_str = f"{token}|{r_id}" if r_id else token
-                                        await save_user_token(message.chat.id, save_str)
-                                        asyncio.create_task(process_new_login(client, message.chat.id, raw_text, save_str))
-                                        await ask.edit(
-                                            f"🎉 **OTP Login Successful!** Naya account add ho gaya.\n"
-                                            f"Ab `/mybatches` daba.{CREDIT}"
-                                        )
-                                    else:
-                                        await ask.edit(f"❌ Verification Failed!\n`{verify_data}`")
+                            # --- VERIFY OTP via Worker ---
+                            verify_url = f"{PW_AUTH_WORKER}/api/verify?num={num_clean}&otp={otp_code}"
 
-                            except asyncio.TimeoutError:
-                                await ask.edit("❌ Time out! Aapne OTP daalne me der kar di.")
-                        else:
-                            await ask.edit(f"❌ OTP Sending failed.\nError: `{res_text}`")
+                            async with session.get(
+                                verify_url,
+                                proxy=Config.get_random_proxy()
+                            ) as verify_res:
+                                verify_text = await verify_res.text()
+
+                                # Worker returns token in one of these common fields
+                                token = None
+                                try:
+                                    vj = await verify_res.json()
+                                    # Try common token fields
+                                    token = (
+                                        vj.get("access_token")
+                                        or vj.get("token")
+                                        or vj.get("data", {}).get("access_token")
+                                        or vj.get("data", {}).get("token")
+                                    )
+                                    # also check for success flag
+                                    success_flag = vj.get("success") or (vj.get("status") == "success")
+                                    if not token and not success_flag:
+                                        logger.error(f"PW Worker verify raw: {verify_text}")
+                                except Exception:
+                                    logger.error(f"PW Worker verify non-JSON: {verify_text}")
+
+                                if token:
+                                    r_id = headers.get("randomid", "")
+                                    save_str = f"{token}|{r_id}" if r_id else token
+                                    await save_user_token(message.chat.id, save_str)
+                                    asyncio.create_task(process_new_login(client, message.chat.id, raw_text, save_str))
+                                    await ask.edit(
+                                        f"🎉 **OTP Login Successful!** Naya account add ho gaya.\n"
+                                        f"Ab `/mybatches` daba.{CREDIT}"
+                                    )
+                                else:
+                                    await ask.edit(
+                                        f"❌ **Verification Failed!**\n\n"
+                                        f"🌐 Worker Response:\n`{verify_text[:500]}`"
+                                    )
+
+                        except asyncio.TimeoutError:
+                            await ask.edit("❌ Time out! Aapne OTP daalne me der kar di.")
 
                 except asyncio.TimeoutError:
-                    return await ask.edit("❌ API timeout! Dubara try karo.")
+                    return await ask.edit("❌ PW Auth Worker timeout! Dubara try karo.")
+                except Exception as e:
+                    logger.error(f"PW Auth Worker error: {e}")
+                    return await ask.edit(f"❌ Worker Error: `{e}`")
 
     except Exception as e:
         logger.error(f"pwlogin error: {e}")
@@ -320,7 +353,6 @@ async def extract_my_tokens(client: Client, message):
     response_text = "🔑 **TERE EXTRACT KIYE HUE TOKENS:**\n\n"
 
     for i, tkn in enumerate(tokens, 1):
-        # 🟢 FIX: Token ab poora dikhega aur copy ho sakega
         response_text += f"👤 **ACCOUNT {i}:**\n`{tkn}`\n\n"
 
     response_text += "👉 **Note:** Kisi bhi token par tap kar, poora token copy ho jayega."
